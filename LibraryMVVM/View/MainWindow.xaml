@@ -1,0 +1,98 @@
+﻿<Window x:Class="LibraryMVVM.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryMVVM"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                    Grid.RowSpan="2">
+            <TabItem Header="Пользователи">
+                <DockPanel>
+                    <ListView Name="ListViewOfUsers" FontSize="30" 
+                              ItemsSource="{Binding Users}" 
+                              SelectedItem="{Binding ChoouseUser}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Имя"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Surname}" Header="Фамилия"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView Name="ListBoxBook" FontSize="30" ItemsSource="{Binding ChoouseUser.Books}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Arc}" Header="Id"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Author}" Header="Автор"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Age}" Header="Дата издания"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Книги">
+                <StackPanel>
+                    <ListView Name="ListViewOfBooks" FontSize="30" ItemsSource="{Binding Books}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Arc}" Header="Id"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Author}" Header="Автор"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Age}" Header="Дата издания"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Count}" Header="Кол-во"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Выдача">
+                <StackPanel>
+                    <ComboBox Name="ComboBoxUsers" FontSize="30" SelectedIndex="0" ItemsSource="{Binding userName}"/>
+                    <ComboBox Name="ComboBoxBooks" FontSize="30" SelectedIndex="0" ItemsSource="{Binding }"/>
+                    <Button Content="Выдать книгу" FontSize="30"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Поиск">
+                <StackPanel>
+                    <TextBox Name="FindTextBox" FontSize="30"/>
+                    <Button Content="Поиск" FontSize="30"/>
+                    <DockPanel>
+                        <ListView Name="FindResultUsers" FontSize="30" Width="400">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" Width="50"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Имя" Width="175"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Surname}" Header="Фамилия" Width="175"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView Name="FindResultBooks" FontSize="30" Width="400">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Arc}" Header="Id" Width="50px"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Author}" Header="Автор" Width="350"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </DockPanel>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
