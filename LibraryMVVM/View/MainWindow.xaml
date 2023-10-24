@@ -61,9 +61,13 @@
 
             <TabItem Header="Выдача">
                 <StackPanel>
-                    <ComboBox Name="ComboBoxUsers" FontSize="30" SelectedIndex="0" ItemsSource="{Binding userName}"/>
-                    <ComboBox Name="ComboBoxBooks" FontSize="30" SelectedIndex="0" ItemsSource="{Binding }"/>
-                    <Button Content="Выдать книгу" FontSize="30"/>
+                    <ComboBox Name="ComboBoxUsers" FontSize="30" 
+                                ItemsSource="{Binding UserName}"
+                                SelectedItem="{Binding SelectedUser}"/>
+                    <ComboBox Name="ComboBoxBooks" FontSize="30"
+                                ItemsSource="{Binding BookName}"
+                                SelectedItem="{Binding SelectedBook}"/>
+                    <Button Content="Выдать книгу" FontSize="30" Command="{Binding BorrowBook}"/>
                 </StackPanel>
             </TabItem>
 
