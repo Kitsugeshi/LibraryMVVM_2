@@ -27,6 +27,32 @@ namespace LibraryMVVM
                 OnPropertyChanged(nameof(ChoouseUser));
             }
         }
+        private string? selectedUser;
+        public string? SelectedUser
+        {
+            get
+            {
+                return selectedUser;
+            }
+            set
+            {
+                selectedUser = value!;
+                OnPropertyChanged(nameof(SelectedUser));
+            }
+        }
+        private string? selectedBook;
+        public string? SelectedBook
+        {
+            get
+            {
+                return selectedBook;
+            }
+            set
+            {
+                selectedBook = value!;
+                OnPropertyChanged(nameof(SelectedBook));
+            }
+        }
         private ObservableCollection<Book>? listBook;
         public ObservableCollection<Book>? ListBook
         {
@@ -39,8 +65,18 @@ namespace LibraryMVVM
                 listBook = value!;
             }
         }
-        public ObservableCollection<string> userName = new ObservableCollection<string>();
-
+        private ObservableCollection<string> userName = new ObservableCollection<string>();
+        public ObservableCollection<string> UserName
+        {
+            get { return userName; }
+            set { userName = value; OnPropertyChanged(nameof(UserName)); }
+        }
+        private ObservableCollection<string> bookName = new ObservableCollection<string>();
+        public ObservableCollection<string> BookName
+        {
+            get { return bookName; }
+            set { bookName = value; OnPropertyChanged(nameof(BookName)); }
+        }
 
         public ApplicationVM()
         {
@@ -64,15 +100,48 @@ namespace LibraryMVVM
 
             foreach (var user in Users)
             {
-                userName.Add(user.Id + " " + user.Name + " " + user.Surname);
+                UserName.Add(user.Id + " " + user.Name + " " + user.Surname);
+            }
+            
+            foreach (var book in Books)
+            {
+                BookName.Add(book.Arc + " " + book.Author + " " + book.Age);
+            }
+
+            SelectedUser = UserName[0];
+            SelectedBook = BookName[0];
+        }
+
+        private RelayCommand? borrowBook;
+        public RelayCommand BorrowBook
+        {
+            get
+            {
+                return borrowBook ??
+                  (borrowBook = new RelayCommand(obj =>
+                  {
+                      foreach (var user in Users!)
+                      {
+                          if (SelectedUser == (user.Id + " " + user.Name + " " + user.Surname))
+                          {
+                              foreach (var book in Books!)
+                              {
+                                  if (SelectedBook == (book.Arc + " " + book.Author + " " + book.Age.ToString()))
+                                  {
+                                      if (book.Count != 0)
+                                      {
+                                          user.AddBook(book);
+                                          book.Count--;
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }));
             }
         }
 
-
-
-
-
-    public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
