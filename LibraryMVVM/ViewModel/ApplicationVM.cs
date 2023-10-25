@@ -141,6 +141,105 @@ namespace LibraryMVVM
             }
         }
 
+        public string? FindObj { get; set; }
+        private ObservableCollection<User> findUsers = new ObservableCollection<User>();
+        private ObservableCollection<Book> findBooks = new ObservableCollection<Book>();
+        public ObservableCollection<User> FindUsers
+        {
+            get
+            {
+                return findUsers;
+            }
+            set
+            {
+                findUsers = value;
+            }
+        }
+        public ObservableCollection<Book> FindBooks
+        {
+            get
+            {
+                return findBooks;
+            }
+            set
+            {
+                findBooks = value;
+            }
+        }
+
+        private RelayCommand? find;
+        public RelayCommand Find
+        {
+            get
+            {
+                return find ??
+                  (find = new RelayCommand(obj =>
+                  {
+                      FindUsers.Clear();
+                      FindBooks.Clear();
+                      List<string> info = new List<string>();
+
+                      string[] inf = FindObj!.Split(' ');
+                      for (int i = 0; i <= inf.Length - 1; i++)
+                      {
+                          info.Add(inf[i]);
+                      }
+
+                      bool isFullName = true;
+                      bool isID = true;
+                      foreach (var user in Users!)
+                      {
+                          if (info.Contains(user.Id))
+                          {
+                              FindUsers.Add(user);
+                              isID = false;
+                              break;
+                          }
+                      }
+                      if (isID)
+                      {
+                          foreach (var user in Users)
+                          {
+                              if (info.Contains(user.Name!) && info.Contains(user.Surname!))
+                              {
+                                  FindUsers.Add(user);
+                                  isFullName = false;
+                              }
+                              if (isFullName)
+                              {
+                                  if (info.Contains(user.Name!) || info.Contains(user.Surname!))
+                                  {
+                                      FindUsers.Add(user);
+                                  }
+                              }
+                          }
+                      }
+
+                      bool isIDb = true;
+                      foreach (var book in Books!)
+                      {
+                          if (info.Contains(book.Arc))
+                          {
+                              FindBooks.Add(book);
+                              isID = false;
+                              break;
+                          }
+                      }
+                      if (isIDb)
+                      {
+                          foreach (var book in Books)
+                          {
+                              if (info.Contains(book.Author!))
+                              {
+                                  FindBooks.Add(book);
+                                  isFullName = false;
+                              }
+                          }
+                      }
+                  }));
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
