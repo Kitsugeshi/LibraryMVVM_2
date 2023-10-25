@@ -73,10 +73,12 @@
 
             <TabItem Header="Поиск">
                 <StackPanel>
-                    <TextBox Name="FindTextBox" FontSize="30"/>
-                    <Button Content="Поиск" FontSize="30"/>
+                    <TextBox Name="FindTextBox" FontSize="30"
+                             Text="{Binding FindObj}/>
+                    <Button Content="Поиск" FontSize="30" Command="{Binding Find}/>
                     <DockPanel>
-                        <ListView Name="FindResultUsers" FontSize="30" Width="400">
+                        <ListView Name="FindResultUsers" FontSize="30" Width="400"
+                                  ItemsSource="{Binding FindUsers}>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" Width="50"/>
@@ -85,7 +87,8 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListView Name="FindResultBooks" FontSize="30" Width="400">
+                        <ListView Name="FindResultBooks" FontSize="30" Width="400"
+                                  ItemsSource="{Binding FindBooks}>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Arc}" Header="Id" Width="50px"/>
